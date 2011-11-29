@@ -26,6 +26,8 @@
                 options.openbrace = 'separate-line';
             }
 
+            options.oneselectorperline = document.getElementById("oneselectorperline").checked;
+
             raw = document.getElementById('raw').value;
             beautified = cssbeautify(raw, options);
             document.getElementById('beautified').value = beautified;
@@ -67,6 +69,7 @@
         <label><input checked type="radio" name="openbrace" id="openbrace-end-of-line" onChange='format()'>end of line</label><br>
         <label><input type="radio" name="openbrace" id="openbrace-separate-line" onChange='format()'>separate line</label>
         </p>
+        <p><label><input checked type="checkbox" id="oneselectorperline" onchange="format()">One selector per line</label></p>
     </div>
 
     <br clear="all"/>

@@ -274,7 +274,21 @@ function cssbeautify(style, opt) {
                 continue;
             }
 
-            formatted += ch;
+
+            // Newline for each selector if specified.
+            if (options.oneselectorperline) {
+                if (ch === ',') {
+                    formatted += ch + '\n';
+
+                // Don't append the character if it's whitespace
+                // and the last added character was a newline.
+                } else if ((formatted.slice(-1) !== '\n') || !isWhitespace(ch)) {
+                    formatted += ch;
+                }
+            } else {
+                formatted += ch;
+            }
+
             continue;
         }
 

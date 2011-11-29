@@ -51,7 +51,7 @@ textarea {
 .container {
     margin-left: auto;
     margin-right: auto;
-    width: 960px;
+    width: 980px;
 }
 
 .container .raw {
@@ -92,15 +92,20 @@ textarea {
 }
 
 .container .options {
-    width: 140px;
+    width: 160px;
     display: inline;
     float: left;
     margin-left: 10px;
     margin-right: 10px;
 }
 
-.container .options input {
+.container .options input[type=radio] {
     margin: 5px 5px 5px 10px;
+}
+
+.container .options input[type=checkbox] {
+    margin-left: 0;
+    margin-right: 5px;
 }
 
 .footer {

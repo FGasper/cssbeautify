@@ -28,6 +28,14 @@ pre {
 .fail {
     color: red;
 }
+
+.container .options {
+    margin-left: 20px;
+    float: none;
+}
+.container .options:before {
+    content: "Options: ";
+}
 </style>
 </head>
 <body>
@@ -360,6 +368,28 @@ h1 {
 }
 </pre>
 
+<h2>Newlines between selectors (optional)</h2>
+
+<pre id="selectornewlines" class="options">
+{ oneselectorperline: true }
+</pre>
+
+<pre id="selectornewlines" class="status"></pre>
+
+<pre id="selectornewlines" class="source">
+foo, html bar, this.that:not(#these) {
+    color: blue;
+}
+</pre>
+
+<pre id="selectornewlines" class="ref">
+foo,
+html bar,
+this.that:not(#these) {
+    color: blue;
+}
+</pre>
+
 </div>
 
 <script>
@@ -373,17 +403,19 @@ for (i = 0; i < list.length; i += 1) {
     id = e.id;
     cls = e.getAttribute('class');
     if (typeof id === 'string' && id.length > 0) {
+        if (!data[id]) { data[id] = {}; }
+
         if (cls === 'source') {
-          data[id] = data[id] || {};
           data[id].source = e.innerHTML;
         }
         if (cls === 'ref') {
-          data[id] = data[id] || {};
           data[id].ref = e.innerHTML.replace(/^\s+/, '').replace(/\s+$/, '');
         }
         if (cls === 'status') {
-          data[id] = data[id] || {};
           data[id].status = e;
+        }
+        if (cls === 'options') {
+          eval( "data[id].options = " + e.innerHTML );
         }
     }
 }
@@ -393,7 +425,13 @@ for (name in data) {
     if (data.hasOwnProperty(name)) {
         total += 1;
         test = data[name];
-        test.result = cssbeautify(test.source).replace(/^\s+/, '').replace(/\s+$/, '');
+
+        var args = [test.source];
+        if ( test.options ) {
+            args.push( test.options );
+        }
+
+        test.result = cssbeautify.apply(this,args).replace(/^\s+/, '').replace(/\s+$/, '');
         if (test.result !== test.ref) {
             failures += 1;
             e = document.createElement('pre');
